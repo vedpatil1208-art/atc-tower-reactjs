@@ -16,6 +16,8 @@ export default function RadarCanvasStage() {
   const airportName = useAtcStore((s) => s.airportName);
   const [selectedId, setSelectedId] = useState(null);
 
+  const activeCount = aircraft.filter((a) => a.status !== 'landed' && a.status !== 'departed').length;
+
   const rings = [120, 240, 360, 480];
   const cx = RADAR_WIDTH / 2;
   const cy = RADAR_HEIGHT / 2;
@@ -32,7 +34,7 @@ export default function RadarCanvasStage() {
     <div className="radar-stage">
       <div className="radar-stage-header">
         <span>{airportName} - TERMINAL RADAR</span>
-        <span>{aircraft.length} ACTIVE TRACKS</span>
+        <span>{activeCount} ACTIVE TRACKS</span>
       </div>
 
       <svg

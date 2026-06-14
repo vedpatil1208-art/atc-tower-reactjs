@@ -14,18 +14,26 @@ const STATUS_LABELS = {
 };
 
 // A single physical flight strip card: Squawk Code, Aircraft Class, Current
-// Altitude, Assigned Runway, and clearance status.
-export default function FlightStrip({ aircraft }) {
+// Altitude, Assigned Runway, and clearance status. Draggable onto other
+// status panels to issue the equivalent controller clearance.
+export default function FlightStrip({ aircraft, draggable, onDragStart, onDragEnd, dragging }) {
   const classes = ['flight-strip'];
   if (aircraft.conflict || aircraft.emergency) classes.push('conflict');
   if (aircraft.status === 'landed' || aircraft.status === 'departed') classes.push('inactive');
+  if (dragging) classes.push('dragging');
 
   const fuel = aircraft.fuel ?? 100;
   const fuelClass = fuel <= CRITICAL_FUEL_THRESHOLD ? 'fuel-critical' : fuel <= LOW_FUEL_THRESHOLD ? 'fuel-low' : 'fuel-ok';
 
   return (
-    <div className={classes.join(' ')}>
+    <div
+      className={classes.join(' ')}
+      draggable={draggable}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+    >
       <div className="flight-strip-row flight-strip-callsign">
+        <span className="flight-strip-drag-handle" title="Drag to a different status panel to issue a clearance">::</span>
         <strong>{aircraft.callsign}</strong>
         <span className="strip-class">{aircraft.aircraftClass}</span>
         {aircraft.emergency && <span className="strip-emergency">EMERGENCY 7700</span>}

@@ -167,6 +167,7 @@ export function respawnAtEdge(aircraft) {
     clearance: null,
     emergency: false,
     fuel: 100,
+    fuelAlertLevel: null,
     trail: [],
   };
 }

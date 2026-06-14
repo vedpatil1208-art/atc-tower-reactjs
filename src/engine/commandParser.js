@@ -191,6 +191,9 @@ export function parseCommand(rawText, state) {
 
   // --- TAXI RWY-XX ---
   if (verb === 'TAXI') {
+    if (!['taxi', 'landed', 'holding-short'].includes(aircraft.status)) {
+      return { ok: false, message: `${aircraft.callsign} - CANNOT TAXI FROM STATUS "${aircraft.status.toUpperCase()}"` };
+    }
     const rwyToken = rest[rest.length - 1];
     const runway = findRunway(state.runways, rwyToken);
     if (!runway) {
@@ -206,6 +209,9 @@ export function parseCommand(rawText, state) {
 
   // --- GO AROUND ---
   if (verb === 'GO' && rest[1] === 'AROUND') {
+    if (aircraft.status !== 'final') {
+      return { ok: false, message: `${aircraft.callsign} - GO AROUND ONLY VALID ON FINAL APPROACH` };
+    }
     return {
       ok: true,
       message: `${aircraft.callsign} GO AROUND`,
@@ -218,6 +224,32 @@ export function parseCommand(rawText, state) {
         climbDescentRate: 1500,
         targetSpeed: 220,
       },
+    };
+  }
+
+  // --- DECLARE EMERGENCY ---
+  if (verb === 'EMERGENCY' || (verb === 'DECLARE' && rest[1] === 'EMERGENCY')) {
+    if (aircraft.emergency) {
+      return { ok: false, message: `${aircraft.callsign} - EMERGENCY ALREADY DECLARED` };
+    }
+    return {
+      ok: true,
+      message: `${aircraft.callsign} DECLARED EMERGENCY - SQUAWK 7700`,
+      aircraftId: aircraft.id,
+      patch: { emergency: true, squawk: '7700' },
+    };
+  }
+
+  // --- CANCEL EMERGENCY ---
+  if (verb === 'CANCEL' && rest[1] === 'EMERGENCY') {
+    if (!aircraft.emergency) {
+      return { ok: false, message: `${aircraft.callsign} - NO ACTIVE EMERGENCY TO CANCEL` };
+    }
+    return {
+      ok: true,
+      message: `${aircraft.callsign} EMERGENCY CANCELLED - SQUAWK 1200`,
+      aircraftId: aircraft.id,
+      patch: { emergency: false, squawk: '1200' },
     };
   }
 

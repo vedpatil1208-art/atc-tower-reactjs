@@ -1,7 +1,7 @@
 .telemetry-hud {
-  background: #0b0f14;
-  border: 1px solid #1f3a2f;
-  color: #cfe8d8;
+  background: var(--atc-panel-bg);
+  border: 1px solid var(--atc-border);
+  color: var(--atc-text);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -13,7 +13,7 @@
   flex-wrap: wrap;
   gap: 12px;
   padding: 6px 10px;
-  border-bottom: 1px solid #1f3a2f;
+  border-bottom: 1px solid var(--atc-border);
 }
 
 .metric-cell {
@@ -21,11 +21,11 @@
 }
 
 .metric-label {
-  color: #6f9783;
+  color: var(--atc-text-dim);
 }
 
 .metric-value {
-  color: #39ff6a;
+  color: var(--atc-accent);
 }
 
 .metric-alert {
@@ -37,26 +37,26 @@
   flex-wrap: wrap;
   gap: 6px;
   padding: 6px 10px;
-  border-bottom: 1px solid #1f3a2f;
+  border-bottom: 1px solid var(--atc-border);
   align-items: center;
 }
 
 .telemetry-controls button {
-  background: #143524;
-  border: 1px solid #2a4d3a;
-  color: #9adfc0;
+  background: #123247;
+  border: 1px solid var(--atc-border-strong);
+  color: var(--atc-chip-text);
   padding: 4px 8px;
   cursor: pointer;
 }
 
 .telemetry-controls button:hover {
-  background: #1f4d33;
+  background: #1c4a63;
 }
 
 .telemetry-controls button.active-toggle {
-  background: #2a1f4d;
-  border-color: #5a3da0;
-  color: #c9a8ff;
+  background: #1f4d3a;
+  border-color: var(--atc-accent-green);
+  color: var(--atc-accent-green);
 }
 
 .live-error {
@@ -76,6 +76,6 @@
 }
 
 .log-time {
-  color: #6f9783;
+  color: var(--atc-text-dim);
   min-width: 90px;
 }

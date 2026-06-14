@@ -3,8 +3,8 @@
   flex-direction: column;
   height: 100vh;
   width: 100vw;
-  background: #05070a;
-  color: #cfe8d8;
+  background: var(--atc-bg);
+  color: var(--atc-text);
 }
 
 .atc-header {
@@ -12,10 +12,15 @@
   justify-content: space-between;
   align-items: center;
   padding: 6px 12px;
-  background: #0b0f14;
-  border-bottom: 1px solid #1f3a2f;
-  color: #39ff6a;
+  background: var(--atc-panel-bg);
+  border-bottom: 1px solid var(--atc-border);
+  background-image: linear-gradient(90deg, rgba(57, 230, 192, 0.08), rgba(57, 192, 255, 0.08));
+  color: var(--atc-accent);
   letter-spacing: 1px;
+}
+
+.atc-clock {
+  color: var(--atc-accent-blue);
 }
 
 .atc-main {

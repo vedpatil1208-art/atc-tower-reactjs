@@ -2,11 +2,26 @@
   box-sizing: border-box;
 }
 
+:root {
+  --atc-bg: #050b14;
+  --atc-panel-bg: #0a141f;
+  --atc-input-bg: #04090f;
+  --atc-border: #1f3a4a;
+  --atc-border-strong: #2a4d5e;
+  --atc-accent: #39e6c0;
+  --atc-accent-blue: #39c0ff;
+  --atc-accent-green: #39ff6a;
+  --atc-text: #cfe8f0;
+  --atc-text-dim: #6f97a8;
+  --atc-chip-bg: #0f1c28;
+  --atc-chip-text: #9adcff;
+}
+
 html, body, #root {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #05070a;
+  background: var(--atc-bg);
 }
 
 body,

@@ -1,7 +1,7 @@
 .tower-control-console {
-  background: #0b0f14;
-  border: 1px solid #1f3a2f;
-  color: #cfe8d8;
+  background: var(--atc-panel-bg);
+  border: 1px solid var(--atc-border);
+  color: var(--atc-text);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -10,14 +10,14 @@
 
 .console-title {
   padding: 4px 8px;
-  border-bottom: 1px solid #1f3a2f;
-  color: #39ff6a;
+  border-bottom: 1px solid var(--atc-border);
+  color: var(--atc-accent);
   letter-spacing: 1px;
 }
 
 .command-input-strip {
   padding: 6px 8px;
-  border-bottom: 1px solid #1f3a2f;
+  border-bottom: 1px solid var(--atc-border);
 }
 
 .command-input-strip form {
@@ -27,27 +27,56 @@
 }
 
 .prompt-caret {
-  color: #39ff6a;
+  color: var(--atc-accent);
 }
 
 .command-input-strip input {
   flex: 1;
-  background: #05080b;
-  border: 1px solid #2a4d3a;
-  color: #cfe8d8;
+  background: var(--atc-input-bg);
+  border: 1px solid var(--atc-border-strong);
+  color: var(--atc-text);
   padding: 4px 6px;
 }
 
 .command-input-strip button {
-  background: #143524;
-  border: 1px solid #2a4d3a;
-  color: #39ff6a;
+  background: #123247;
+  border: 1px solid var(--atc-border-strong);
+  color: var(--atc-accent);
   padding: 4px 10px;
   cursor: pointer;
 }
 
 .command-input-strip button:hover {
+  background: #1c4a63;
+}
+
+.voice-button {
+  background: #143524;
+  border: 1px solid var(--atc-border-strong);
+  color: var(--atc-accent-green);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.voice-button:hover {
   background: #1f4d33;
+}
+
+.voice-button.listening {
+  background: #4d1f1f;
+  border-color: #ff3b3b;
+  color: #ff9a9a;
+  animation: strip-flash 0.6s infinite;
+}
+
+.voice-status {
+  margin-top: 6px;
+  color: var(--atc-accent-blue);
+}
+
+.voice-unsupported {
+  margin-top: 6px;
+  color: var(--atc-text-dim);
 }
 
 .command-feedback {
@@ -57,8 +86,8 @@
 }
 
 .command-feedback.ok {
-  border-color: #39ff6a;
-  color: #39ff6a;
+  border-color: var(--atc-accent-green);
+  color: var(--atc-accent-green);
 }
 
 .command-feedback.rejected {
@@ -72,19 +101,19 @@
   flex-wrap: wrap;
   gap: 4px;
   align-items: center;
-  color: #6f9783;
+  color: var(--atc-text-dim);
 }
 
 .example-chip {
-  background: #0f1c14;
-  border: 1px solid #2a4d3a;
-  color: #9adfc0;
+  background: var(--atc-chip-bg);
+  border: 1px solid var(--atc-border-strong);
+  color: var(--atc-chip-text);
   padding: 2px 6px;
   cursor: pointer;
 }
 
 .example-chip:hover {
-  background: #1f4d33;
+  background: #1c4a63;
 }
 
 .flight-strip-stack {
@@ -95,22 +124,43 @@
 
 .strip-panel {
   margin-bottom: 8px;
+  border: 1px dashed transparent;
+  border-radius: 2px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.strip-panel.drop-eligible {
+  border-color: var(--atc-accent-blue);
+}
+
+.strip-panel.drop-active {
+  background: rgba(57, 192, 255, 0.08);
+  border-color: var(--atc-accent-green);
 }
 
 .strip-panel-title {
-  color: #6f9783;
-  border-bottom: 1px solid #1f3a2f;
+  color: var(--atc-text-dim);
+  border-bottom: 1px solid var(--atc-border);
   margin-bottom: 4px;
   letter-spacing: 1px;
 }
 
+.strip-panel-dropzone {
+  padding: 10px 6px;
+  text-align: center;
+  color: var(--atc-accent-blue);
+  border: 1px dashed var(--atc-accent-blue);
+  margin-bottom: 4px;
+}
+
 .flight-strip {
-  background: #0f1c14;
-  border: 1px solid #2a4d3a;
-  border-left: 4px solid #39ff6a;
+  background: #0f1c28;
+  border: 1px solid var(--atc-border-strong);
+  border-left: 4px solid var(--atc-accent-green);
   padding: 4px 6px;
   margin-bottom: 4px;
   transition: all 0.3s ease;
+  cursor: grab;
 }
 
 .flight-strip.conflict {
@@ -123,8 +173,13 @@
   border-left-color: #555555;
 }
 
+.flight-strip.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+
 @keyframes strip-flash {
-  0%, 100% { background: #0f1c14; }
+  0%, 100% { background: #0f1c28; }
   50% { background: #2a0f0f; }
 }
 
@@ -135,10 +190,18 @@
 
 .flight-strip-callsign {
   color: #ffffff;
+  gap: 6px;
+}
+
+.flight-strip-drag-handle {
+  color: var(--atc-text-dim);
+  cursor: grab;
+  letter-spacing: 2px;
 }
 
 .strip-class {
-  color: #6f9783;
+  color: var(--atc-text-dim);
+  margin-left: auto;
 }
 
 .strip-emergency {
@@ -153,8 +216,8 @@
 .fuel-gauge {
   flex: 1;
   height: 8px;
-  background: #05080b;
-  border: 1px solid #2a4d3a;
+  background: var(--atc-input-bg);
+  border: 1px solid var(--atc-border-strong);
   margin: 0 4px;
 }
 
@@ -163,7 +226,7 @@
 }
 
 .fuel-gauge-fill.fuel-ok {
-  background: #39ff6a;
+  background: var(--atc-accent-green);
 }
 
 .fuel-gauge-fill.fuel-low {
@@ -183,5 +246,5 @@
 }
 
 .fuel-ok {
-  color: #39ff6a;
+  color: var(--atc-accent-green);
 }

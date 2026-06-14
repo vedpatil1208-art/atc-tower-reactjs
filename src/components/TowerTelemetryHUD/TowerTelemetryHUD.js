@@ -15,7 +15,7 @@ const LOG_COLORS = {
   rejected: '#ff9a9a',
   conflict: '#ff3b3b',
   system: '#7af0ff',
-  info: '#cfe8d8',
+  info: '#cfe8f0',
 };
 
 // Bottom-docked status terminal documenting chronological background data
@@ -96,7 +96,7 @@ export default function TowerTelemetryHUD() {
 
       <div className="telemetry-log">
         {telemetryLog.map((entry) => (
-          <div className="log-row" key={entry.id} style={{ color: LOG_COLORS[entry.type] || '#cfe8d8' }}>
+          <div className="log-row" key={entry.id} style={{ color: LOG_COLORS[entry.type] || '#cfe8f0' }}>
             <span className="log-time">{new Date(entry.timestamp).toLocaleTimeString()}</span>
             <span className="log-text">{entry.text}</span>
           </div>

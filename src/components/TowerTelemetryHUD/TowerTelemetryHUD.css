@@ -1,0 +1,81 @@
+.telemetry-hud {
+  background: #0b0f14;
+  border: 1px solid #1f3a2f;
+  color: #cfe8d8;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.telemetry-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 6px 10px;
+  border-bottom: 1px solid #1f3a2f;
+}
+
+.metric-cell {
+  min-width: 120px;
+}
+
+.metric-label {
+  color: #6f9783;
+}
+
+.metric-value {
+  color: #39ff6a;
+}
+
+.metric-alert {
+  color: #ff3b3b;
+}
+
+.telemetry-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 10px;
+  border-bottom: 1px solid #1f3a2f;
+  align-items: center;
+}
+
+.telemetry-controls button {
+  background: #143524;
+  border: 1px solid #2a4d3a;
+  color: #9adfc0;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.telemetry-controls button:hover {
+  background: #1f4d33;
+}
+
+.telemetry-controls button.active-toggle {
+  background: #2a1f4d;
+  border-color: #5a3da0;
+  color: #c9a8ff;
+}
+
+.live-error {
+  color: #ff9a9a;
+}
+
+.telemetry-log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 10px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.log-row {
+  display: flex;
+  gap: 8px;
+}
+
+.log-time {
+  color: #6f9783;
+  min-width: 90px;
+}

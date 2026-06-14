@@ -1,0 +1,43 @@
+.atc-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: #05070a;
+  color: #cfe8d8;
+}
+
+.atc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  background: #0b0f14;
+  border-bottom: 1px solid #1f3a2f;
+  color: #39ff6a;
+  letter-spacing: 1px;
+}
+
+.atc-main {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  gap: 4px;
+  padding: 4px;
+}
+
+.atc-left {
+  width: 320px;
+  flex-shrink: 0;
+}
+
+.atc-center {
+  flex: 1;
+  min-width: 0;
+}
+
+.atc-bottom {
+  height: 230px;
+  flex-shrink: 0;
+  padding: 0 4px 4px 4px;
+}

@@ -1,0 +1,34 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #05070a;
+}
+
+body,
+input,
+button,
+select,
+textarea,
+table,
+th,
+td,
+div,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+label {
+  font-family: 'Times New Roman', Times, serif !important;
+  font-size: 12pt !important;
+}
+
+code {
+  font-family: 'Times New Roman', Times, serif;
+}

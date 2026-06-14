@@ -18,6 +18,8 @@ import {
 } from '../engine/constants';
 
 const CONFIG_STORAGE_KEY = 'atc-tower-airport-config';
+const SESSION_STORAGE_KEY = 'atc-tower-session-state';
+const SESSION_PERSIST_INTERVAL_MS = 3000;
 const MAX_LOG_ENTRIES = 200;
 const MAX_METRIC_SAMPLES = 50;
 
@@ -65,26 +67,39 @@ function makeLog(text, type = 'info') {
   return { id: nextLogId(), timestamp: Date.now(), text, type };
 }
 
+function loadPersistedSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed.aircraft) || !Array.isArray(parsed.runways)) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
 const persistedAirportName = (loadPersistedConfig() || {}).airportName || 'KAT INTERNATIONAL TOWER';
+const persistedSession = loadPersistedSession();
 
 export const useAtcStore = create((set, get) => ({
-  aircraft: initialAircraft,
-  runways: applyPersistedRunways(initialRunways),
-  airportName: persistedAirportName,
+  aircraft: persistedSession?.aircraft ?? initialAircraft,
+  runways: persistedSession?.runways ?? applyPersistedRunways(initialRunways),
+  airportName: persistedSession?.airportName ?? persistedAirportName,
 
-  commandLog: [],
-  telemetryLog: [
-    makeLog('TOWER SESSION INITIALIZED', 'system'),
-  ],
-  activeConflictKeys: [],
+  commandLog: persistedSession?.commandLog ?? [],
+  telemetryLog: persistedSession
+    ? [makeLog(`SESSION RESTORED FROM LOCAL STORAGE (saved ${new Date(persistedSession.savedAt).toLocaleTimeString()})`, 'system'), ...persistedSession.telemetryLog]
+    : [makeLog('TOWER SESSION INITIALIZED', 'system')],
+  activeConflictKeys: persistedSession?.activeConflictKeys ?? [],
 
-  metrics: {
+  metrics: persistedSession?.metrics ?? {
     totalHandled: 0,
     parsingLatenciesMs: [],
     runwayOccupancySeconds: [],
   },
 
-  simRunning: true,
+  simRunning: persistedSession?.simRunning ?? true,
   lastPersistAt: 0,
 
   liveTraffic: [],
@@ -94,7 +109,32 @@ export const useAtcStore = create((set, get) => ({
   liveTrafficUpdatedAt: null,
 
   // ----- Simulation control -----
-  toggleSim: () => set((state) => ({ simRunning: !state.simRunning })),
+  toggleSim: () => {
+    set((state) => ({ simRunning: !state.simRunning }));
+    get().persistSession();
+  },
+
+  // ----- Full session persistence (survives tab/page reload) -----
+  persistSession: () => {
+    const state = get();
+    const payload = {
+      savedAt: Date.now(),
+      airportName: state.airportName,
+      aircraft: state.aircraft,
+      runways: state.runways,
+      commandLog: state.commandLog,
+      telemetryLog: state.telemetryLog,
+      metrics: state.metrics,
+      activeConflictKeys: state.activeConflictKeys,
+      simRunning: state.simRunning,
+    };
+    try {
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(payload));
+    } catch {
+      // localStorage unavailable or full - skip silently
+    }
+    set({ lastPersistAt: Date.now() });
+  },
 
   // ----- Main update loop tick -----
   tick: (dtSeconds) => {
@@ -232,6 +272,10 @@ export const useAtcStore = create((set, get) => ({
       metrics,
       telemetryLog,
     });
+
+    if (now - state.lastPersistAt > SESSION_PERSIST_INTERVAL_MS) {
+      get().persistSession();
+    }
   },
 
   // ----- Command Syntax State Machine -----
@@ -276,6 +320,7 @@ export const useAtcStore = create((set, get) => ({
     }
 
     set({ aircraft, runways, commandLog, telemetryLog, metrics });
+    get().persistSession();
     return result;
   },
 
@@ -288,6 +333,7 @@ export const useAtcStore = create((set, get) => ({
       ...state.telemetryLog,
     ].slice(0, MAX_LOG_ENTRIES);
     set({ aircraft: [...state.aircraft, emg], telemetryLog });
+    get().persistSession();
   },
 
   // ----- Live traffic (OpenSky) -----

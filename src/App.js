@@ -35,6 +35,13 @@ function App() {
     return () => clearInterval(id);
   }, [liveTrafficEnabled, fetchLiveTraffic]);
 
+  // Final safety-net save so the session survives tab close / refresh.
+  useEffect(() => {
+    const handler = () => useAtcStore.getState().persistSession();
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, []);
+
   return (
     <div className="atc-app">
       <header className="atc-header">

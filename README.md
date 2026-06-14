@@ -1,70 +1,244 @@
-# Getting Started with Create React App
+# ATC Tower Simulator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A high-performance frontend-only Air Traffic Control (ATC) Tower Simulator built with ReactJS and Zustand. The application simulates airport tower operations, including aircraft tracking, runway management, flight command processing, conflict detection, telemetry monitoring, and emergency scenario handling, all running entirely in the browser without requiring a backend server.
 
-## Available Scripts
+## Live Demo
 
-In the project directory, you can run:
+**Deployment:** https://atc-tower-reactjs.vercel.app/
 
-### `npm start`
+## Project Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The ATC Tower Simulator replicates the workflow of an airport control tower by allowing users to monitor aircraft movement on a radar display, issue commands through a controller console, manage runway operations, and maintain safe aircraft separation.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The simulation operates entirely in-memory using a custom flight kinematics engine and real-time update loop powered by `requestAnimationFrame`. Aircraft positions, telemetry data, runway occupancy states, and controller commands are processed directly within the browser for a responsive and low-latency experience.
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Terminal Radar Display
 
-### `npm run build`
+* Real-time aircraft tracking
+* Radar sweep visualization
+* Runway occupancy monitoring
+* Flight vector display
+* Aircraft telemetry labels
+* Active track counter
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Air Traffic Control Console
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* Command-based controller interface
+* Flight progress strips
+* Aircraft status management
+* Runway clearance commands
+* Heading and altitude assignment
+* Speed control commands
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Flight Kinematics Engine
 
-### `npm run eject`
+* Real-time aircraft movement simulation
+* Heading-based navigation
+* Altitude tracking
+* Speed calculations
+* Continuous position updates
+* Smooth radar animation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Conflict Detection System
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* Aircraft separation monitoring
+* Conflict alert generation
+* Visual warning indicators
+* Airspace safety validation
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Telemetry Dashboard
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+* Total handled traffic metrics
+* Airspace density index
+* Average runway occupancy time
+* Parser execution latency
+* Active track monitoring
+* Conflict tracking
 
-## Learn More
+### Data Management
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* LocalStorage persistence
+* Session restoration
+* Airport configuration saving
+* JSON session export
+* CSV operational report export
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Emergency Operations
 
-### Code Splitting
+* Emergency aircraft injection
+* Priority traffic handling
+* Emergency status indicators
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Tech Stack
 
-### Analyzing the Bundle Size
+### Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* React.js
+* JavaScript (ES6+)
+* CSS3
 
-### Making a Progressive Web App
+### State Management
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+* Zustand
 
-### Advanced Configuration
+### Build Tools
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+* Create React App
+* React Scripts
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+* Vercel
 
-### `npm run build` fails to minify
+## Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```text
+src/
+│
+├── components/
+│   ├── RadarCanvasStage/
+│   │   ├── RadarCanvasStage.js
+│   │   ├── AircraftSpriteBlip.js
+│   │   ├── RunwayNodeElement.js
+│   │   └── RadarCanvasStage.css
+│   │
+│   ├── TowerControlConsole/
+│   │   ├── TowerControlConsole.js
+│   │   ├── CommandInputStrip.js
+│   │   ├── FlightProgressStripStack.js
+│   │   ├── FlightStrip.js
+│   │   └── TowerControlConsole.css
+│   │
+│   └── TowerTelemetryHUD/
+│       ├── TowerTelemetryHUD.js
+│       └── TowerTelemetryHUD.css
+│
+├── data/
+├── engine/
+│   ├── kinematics.js
+│   ├── separation.js
+│   └── commandParser.js
+│
+├── services/
+├── store/
+│   └── atcStore.js
+│
+└── utils/
+    └── exportUtils.js
+```
+
+## Simulation Architecture
+
+### Aircraft Kinematics
+
+Aircraft movement is calculated using vector-based navigation equations:
+
+ΔX = Speed × cos(θ) × Δt
+
+ΔY = Speed × sin(θ) × Δt
+
+ΔAltitude = Descent Rate × Δt
+
+This enables realistic aircraft movement and approach tracking on the radar display.
+
+### Separation Monitoring
+
+The simulator continuously evaluates aircraft proximity and generates conflict alerts when aircraft violate minimum separation requirements.
+
+### Command Processing
+
+Controller commands are parsed through a custom command parser that validates instructions and updates aircraft states in real time.
+
+Example Commands:
+
+```text
+AA104 clear land RWY-09L
+DL442 fly heading 180
+UA210 clear takeoff RWY-09L
+BA256 climb and maintain 11000
+JB1822 set speed 280
+```
+
+## Installation
+
+### Clone Repository
+
+```bash
+git clone https://github.com/vedpatil1208-art/atc-tower-reactjs.git
+```
+
+### Navigate to Project
+
+```bash
+cd atc-tower-reactjs
+```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Run Development Server
+
+```bash
+npm start
+```
+
+The application will be available at:
+
+```text
+http://localhost:3000
+```
+
+## Build for Production
+
+```bash
+npm run build
+```
+
+## Screenshots
+
+### Main Radar Interface
+
+Add screenshot here:
+
+```text
+docs/radar-dashboard.png
+```
+
+### Tower Control Console
+
+Add screenshot here:
+
+```text
+docs/control-console.png
+```
+
+### Telemetry Dashboard
+
+Add screenshot here:
+
+```text
+docs/telemetry-panel.png
+```
+
+## Future Enhancements
+
+* Multiple airport layouts
+* Weather simulation
+* Voice command support
+* Aircraft performance profiles
+* Advanced approach procedures
+* Multiplayer controller mode
+* Real-world flight data integration
+
+## Author
+
+Ved Patil
+
+## License
+
+This project was developed for educational and academic purposes as part of a ReactJS case study project.

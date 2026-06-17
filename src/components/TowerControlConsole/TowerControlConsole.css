@@ -50,34 +50,6 @@
   background: #1c4a63;
 }
 
-.voice-button {
-  background: #143524;
-  border: 1px solid var(--atc-border-strong);
-  color: var(--atc-accent-green);
-  padding: 4px 10px;
-  cursor: pointer;
-}
-
-.voice-button:hover {
-  background: #1f4d33;
-}
-
-.voice-button.listening {
-  background: #4d1f1f;
-  border-color: #ff3b3b;
-  color: #ff9a9a;
-  animation: strip-flash 0.6s infinite;
-}
-
-.voice-status {
-  margin-top: 6px;
-  color: var(--atc-accent-blue);
-}
-
-.voice-unsupported {
-  margin-top: 6px;
-  color: var(--atc-text-dim);
-}
 
 .command-feedback {
   margin-top: 6px;

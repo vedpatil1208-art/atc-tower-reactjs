@@ -25,6 +25,7 @@
       "react-app/jest"
     ]
   },
+  "proxy": "https://opensky-network.org",
   "browserslist": {
     "production": [
       ">0.2%",

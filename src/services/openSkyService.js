@@ -9,7 +9,9 @@
 
 import { RADAR_WIDTH, RADAR_HEIGHT } from '../engine/constants';
 
-const STATES_URL = 'https://opensky-network.org/api/states/all';
+// Use a relative path so the CRA dev proxy (package.json "proxy") forwards the
+// request server-side, avoiding CORS. In production a server-side proxy is needed.
+const STATES_URL = '/api/states/all';
 
 // Default bounding box: New York / JFK area
 export const DEFAULT_BBOX = {
